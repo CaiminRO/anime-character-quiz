@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset = "utf-8" />
+        <title>Anime Character Quiz</title>
+
+        <link href="Stylesheets\main_style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <script type="text/javascript">
+            function on() {
+                document.getElementById("overlay").style.display = "block";
+            }
+
+            function off() {
+                document.getElementById("overlay").style.display = "none";
+            }
+        </script>
+
+        <div id="overlay" class="overlay" onclick="off()">
+            <div class="settings-topbar">
+                <span id="settings-title">Anime Character Quiz</span>
+            </div>
+
+            <div class="settings-menu">
+
+            </div>
+        </div>
+
+        <div class="grid-main">
+            <div class="grid-title">
+                <span id="title">Anime Character Quiz</span>
+            </div>
+
+            <div class="grid-game">
+                <div class="">
+                    <button id="buttonOverlay" type="button" onclick="on()">Settings</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
