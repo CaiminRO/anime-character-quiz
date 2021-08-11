@@ -1,2 +1,2 @@
-# anime-quiz
+# anime-character-quiz
 random test
