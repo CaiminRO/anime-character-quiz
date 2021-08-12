@@ -8,34 +8,21 @@
     </head>
 
     <body>
-        <script type="text/javascript">
-            function on() {
-                document.getElementById("overlay").style.display = "block";
-            }
-
-            function off() {
-                document.getElementById("overlay").style.display = "none";
-            }
-        </script>
-
-        <div id="overlay" class="overlay" onclick="off()">
-            <div class="settings-topbar">
-                <span id="settings-title">Anime Character Quiz</span>
-            </div>
-
-            <div class="settings-menu">
-
-            </div>
-        </div>
 
         <div class="grid-main">
             <div class="grid-title">
                 <span id="title">Anime Character Quiz</span>
             </div>
 
-            <div class="grid-game">
+            <div id="settings" class="grid-settings">
                 <div class="">
-                    <button id="buttonOverlay" type="button" onclick="on()">Settings</button>
+                    <span id="settings-title">Settings</span>
+                </div>
+            </div>
+
+            <div id="game" class="grid-game">
+                <div class="">
+
                 </div>
             </div>
         </div>
