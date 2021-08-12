@@ -20,7 +20,7 @@
 }
 
 .grid-title {
-    background-color: blue;
+    background-color: cyan;
     height: auto;
     width: auto;
 
@@ -31,7 +31,7 @@
     text-align: center;
     width: auto;
     font-size: 4vw;
-    font: "Arial";
+    font-family: "Arial";
 }
 
 .grid-settings {

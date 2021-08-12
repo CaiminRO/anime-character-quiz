@@ -1,0 +1,23 @@
+{
+  "name": "anime-character-quiz",
+  "version": "1.0.0",
+  "description": "anime character quiz",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Iceecode/anime-character-quiz.git"
+  },
+  "author": "Iceecode",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Iceecode/anime-character-quiz/issues"
+  },
+  "homepage": "https://github.com/Iceecode/anime-character-quiz#readme",
+  "dependencies": {
+    "jikanjs": "^0.7.0",
+    "simple-rate-limiter": "^0.2.3"
+  }
+}

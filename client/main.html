@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Head -->
+    <head>
+        <meta charset = "utf-8" />
+        <title>Anime Character Quiz</title>
+
+        <link href="Stylesheets\main_style.css" rel="stylesheet">
+    </head>
+
+    <!-- Body -->
+    <body>
+        <!-- Main Grid Body - Separated into 2 Rows: Title + (Settings OR Game) -->
+        <div class="grid-main">
+            <!-- Title of Game - Shown during Pregame Settings & Game -->
+            <div class="grid-title">
+                <span id="title">Anime Character Quiz</span>
+            </div>
+
+            <!-- Pregame Settings Menu -->
+            <div id="settings" class="grid-settings">
+                <!-- Settings Title -->
+                <div id="boxSettingsTitle" class="">
+                    <span id="titleSettings">Settings</span>
+                </div>
+                <!-- Which MAL account to use -->
+                <div class="">
+                    <label for="MAList" class="setting-text">MyAnimeList Username: </label>
+                    <input type="text" id="MAList" name="MAList" value="Iceehiphop">
+                </div>
+
+                <!-- Lifelines -->
+                <div id="boxLifeline" class="">
+                    <!-- Whether Lifelines are Enabled or Disabled -->
+                    <div id="ll_State" class="">
+                        <label>Lifelines:</label>
+                            <br />
+                        <input type="radio" id="ll_EN" name="lifelines" value="enabled" onclick="funcLifelineEnable()">
+                        <label for="lifelineEN" class="setting-text">Enabled</label>
+                            <br />
+                        <input type="radio" id="ll_DIS" name="lifelines" value="disabled" checked onclick="funcLifelineDisable()">
+                        <label for="lifelineDIS" class="setting-text">Disabled</label>
+                    </div>
+
+                    <!-- Useable Lifelines + Cooldown -->
+                    <div id="ll_Skills" class="" style="display: none">
+                        <label>Lifeline Skills:</label>
+                            <br />
+                        <input type="checkbox" id="ll_5050" name="ll">
+                        <label for="ll_5050">50 / 50</label>
+                            <br />
+                        <input type="checkbox" id="ll_skip" name="ll">
+                        <label for="ll-skip">Skip</label>
+                            <br />
+                        <label for="ll_Cooldown" class="setting-text">Cooldown: </label>
+                        <input type="number" id="ll_Cooldown" name="ll_Cooldown" value="10" min="1" max="100">
+                    </div>
+                </div>
+
+                <!-- # of Questions -->
+                <div id="boxNumQuesions" class="">
+                    <label for="numQuestions" class="setting-text">Number of Questions: </label>
+                    <input type="number" id="numQuestions" name="numQuestions" value="20" min="1" max="100">
+                </div>
+
+                <!-- Timer Setting -->
+                <div id="boxTimerSetting" class="">
+                    <label for="timerSetting" class="setting-text">Seconds Per Question: </label>
+                    <input type="number" id="timerSetting" name="timerSetting" value="20" min="1" max="60">
+                </div>
+
+                <!-- Watch Type (Watching, Completed, On-Hold, Dropped, Plan to Watch) -->
+                <div id="boxWatchTypes" class="">
+                    <label>Watch Type:</label>
+                        <br />
+                    <input type="checkbox" id="wt_Watching" name="wt">
+                    <label for="wt_Watching">Watching</label>
+                        <br />
+                    <input type="checkbox" id="wt_Completed" name="wt" checked>
+                    <label for="wt_Completed">Completed</label>
+                        <br />
+                    <input type="checkbox" id="wt_OnHold" name="wt">
+                    <label for="wt_OnHold">On-Hold</label>
+                        <br />
+                    <input type="checkbox" id="wt_Dropped" name="wt">
+                    <label for="wt_Dropped">Dropped</label>
+                        <br />
+                    <input type="checkbox" id="wt_PTW" name="wt">
+                    <label for="wt_PTW">Plan to Watch</label>
+                </div>
+
+                <!-- Start Game -->
+                <div id="boxStartGame" class="">
+                    <input id="buttonStartGame" type="button" value="Start Game" onclick="funcStartGame()">
+                </div>
+            </div>
+
+            <!-- Game -->
+            <div id="game" class="grid-game">
+                <!-- Timer / Question # (/ Lifelines & CD)-->
+                <div class="">
+
+                </div>
+
+                <!-- Character Portrait -->
+                <div id="boxPhoto" class="">
+                    <img src="images\acorn.jpg" alt="images\acorn.jpg">
+                </div>
+
+                <!-- Button Choices -->
+                <div id="boxButtons" class="grid-buttons">
+                    <button id="button1" type="button" name="button">Name1 - AnimeENG - AnimeJAP</button>
+                    <button id="button2" type="button" name="button">Name2 - AnimeENG - AnimeJAP</button>
+                    <button id="button3" type="button" name="button">Name3 - AnimeENG - AnimeJAP</button>
+                    <button id="button4" type="button" name="button">Name4 - AnimeENG - AnimeJAP</button>
+                </div>
+
+                <!-- Quit Game (REFRESH WEBPAGE) -->
+                <div id="boxQuitGame" class="">
+                    <input id="buttonQuitGame" type="button" value="Quit Game" onclick="funcQuitGame()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <div>
+            <script src="Scripts\button_functions.js"></script>
+        </div>
+    </body>
+</html>
