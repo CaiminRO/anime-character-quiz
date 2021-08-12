@@ -24,9 +24,15 @@
                     <span id="titleSettings">Settings</span>
                 </div>
                 <!-- Which MAL account to use -->
-                <div class="">
+                <div id="boxMAList" class="">
                     <label for="MAList" class="setting-text">MyAnimeList Username: </label>
                     <input type="text" id="MAList" name="MAList" value="Iceehiphop">
+                </div>
+
+                <!-- # of Lives -->
+                <div id="boxMaxLives" class="">
+                    <label for="maxlives" class="setting-text">Number of Lives: </label>
+                    <input type="number" id="maxlives" name="maxlives" value="3" min="1" max="100">
                 </div>
 
                 <!-- Lifelines -->
@@ -98,13 +104,38 @@
             <!-- Game -->
             <div id="game" class="grid-game">
                 <!-- Timer / Question # (/ Lifelines & CD)-->
-                <div class="">
+                <div id="boxGameHeading" class="grid-gameheading">
+                    <!-- Question # -->
+                    <div class="">
+                        <span>Question: </span>
+                        <span id="question">1</span>
+                    </div>
 
+                    <!-- Timer -->
+                    <div class="">
+                        <span id="timer">30</span>
+                        <span> seconds remaining</span>
+                    </div>
+
+                    <!-- Lifelines & Cooldowns -->
+                    <div class="">
+                        <!-- 50/50 Lifeline -->
+                        <div class="">
+                            <img id="ll_5050Img" title="50/50" src="" alt="50 / 50" >
+                            <span>10</span>
+                        </div>
+
+                        <!-- Skip Lifeline -->
+                        <div class="">
+                            <img id="ll_SkipImg" title="Skip" src="" alt="Skip" >
+                            <span>10</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Character Portrait -->
                 <div id="boxPhoto" class="">
-                    <img src="images\acorn.jpg" alt="images\acorn.jpg">
+                    <img id="CharPotrait" title="Portrait" src="images\acorn.jpg" alt="This means the portrait isn't loading ):">
                 </div>
 
                 <!-- Button Choices -->
