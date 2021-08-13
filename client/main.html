@@ -7,10 +7,6 @@
 
         <!-- Stylesheets -->
         <link type="text/css" href="Stylesheets\main_style.css" rel="stylesheet">
-
-        <!-- Scripts -->
-            <!-- Socket.io Clientside -->
-            <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
     </head>
 
     <!-- Body -->
@@ -158,9 +154,20 @@
             </div>
         </div>
 
-        <!-- Scripts -->
+
+        <!-- CDN Scripts -->
+            <!-- Socket.io Clientside -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.min.js" integrity="sha512-fB746S+jyTdN2LSWbYSGP2amFYId226wpOeV4ApumcDpIttPxvk1ZPOgnwqwQziRAtZkiFJVx9F64GLAtoIlCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+        <!-- Personal Scripts -->
         <div>
-            <script src="Scripts\button_functions.js"></script>
+            <script type="text/javascript">
+                var socket = io();
+            </script>
+            <script src="Scripts/button_functions.js"></script>
+            <script src="Scripts/sockets.js"></script>
         </div>
+
     </body>
 </html>

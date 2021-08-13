@@ -1,3 +1,1 @@
-var socket = io();
-
-socket.emit('happy');
+socket.emit('client connected');
