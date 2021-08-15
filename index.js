@@ -1,3 +1,5 @@
+/* jshint esversion: 10 */
+
 // Database
 
 
@@ -18,7 +20,7 @@ console.log('<<< server started');
 var io = require('socket.io')(serv, {});
 
 // JikanJS
-var jikanjs  = require('jikanjs'); // Uses per default the API version 3
+var jikan = require('jikanjs'); // Uses per default the API version 3
 
 // Random Integer Function
 function randInt(max) {
@@ -27,101 +29,91 @@ function randInt(max) {
 
 // Objects
 var Character = {
-    status: "",
     name: "",
     image_src: "",
     origin: ""
 };
 var Anime = {
-    status: false,
     mal_id: "",
     title: "",
     characters: []
 };
+
+// Lists
 var AnimeList = [];
 
-function callAnimeList(username, watchtype) {
-    console.log('Calling API: Anime list of ' + username + " (WT: " + watchtype + ")");
-    return new Promise(function (resolve, reject) {
-        jikanjs.loadUser(username, 'animelist', watchtype).then(
-            (response) => {
-                var result = response.anime;
-                for (ani of result) {
-                    var temp_ani = Object.create(Anime);
-                    temp_ani.status = true;
-                    temp_ani.mal_id = ani.mal_id;
-                    temp_ani.title = ani.title;
+// API Call Functions
+function callAnimeList(user, wt) {
+    return new Promise((resolve, reject) => {
+        jikan.loadUser(user, 'animelist', wt).then((response) => {
+            var called_AnimeList = response.anime;
 
-                    AnimeList.push(temp_ani);
-                }
-                console.log('Processing Data: Animelist of ' + username + " (WT: " + watchtype + ")");
-                setTimeout(() => resolve(result), 1000);
-            }, (err) => {
-                console.log('List FAILED: ' + watchtype);
-                return 'failed';
+            for (var anime of called_AnimeList) {
+                var temp_anime = Object.create(Anime);
+
+                temp_anime.mal_id = anime.mal_id;
+                temp_anime.title = anime.title;
+
+                AnimeList.push(temp_anime);
             }
-        );
+
+            console.log(wt + ': PASSED');
+
+            setTimeout(() => resolve(), 1100);
+        }).catch(() => {
+            console.log(wt + ': FAILED');
+
+            reject();
+        });
     });
 }
 function callAnime(MALid) {
-    console.log('Calling API: Anime ' + MALid);
-    return new Promise(function (resolve, reject) {
-        jikanjs.loadAnime(MALid, 'characters_staff').then(
-            (response) => {
-                var result = response.characters;
-                for (var i = 0; i < AnimeList.length; i++) {
-                    if (AnimeList[i].mal_id == MALid) {
-                        try {
-                            var temp_charlist = [];
-                            for (char of result) {
-                                var temp_char = Object.create(Character);
-                                temp_char.status = true;
-                                temp_char.name = char.name;
-                                temp_char.image_src = char.image_url;
-                                temp_char.origin = AnimeList[i].title;
+    return new Promise((resolve, reject) => {
+        jikan.loadAnime(MALid, 'characters_staff').then((response) => {
+            var called_CharacterList = response.characters;
 
-                                temp_charlist.push(temp_char);
-                            }
-                            AnimeList[i].characters = temp_charlist;
-                        } catch (err) {
-                            console.log('Error with Character grab, Anime ' + MALid);
-                        }
-                    }
-                }
-                console.log('Processing Data: Anime ' + MALid);
-                setTimeout(() => resolve(result), 1000);
-            }, (err) => {
-                console.log('Anime FAILED: ' + MALid);
-                return 'failed';
+            var temp_charlist = [];
+            for (var char of called_CharacterList) {
+                var temp_char = Objectr.create(Character);
+
+                temp_char.name = char.name;
+                temp_char.image_src = char.image_url;
+                for (var ani of AnimeList)
+                    if (ani.mal_id == MALid)
+                        temp_char.origin = ani.title;
+
+                temp_charlist.push(temp_char);
             }
-        );
+
+            for (var anime of AnimeList)
+                if (anime.mal_id == MALid)
+                    anime.characters = temp_charlist;
+
+            console.log(MALid + ': PASSED');
+
+            setTimeout(() => resolve(), 1100);
+        }).catch(() => {
+            console.log(MALid + ': FAILED');
+
+            reject();
+        });
     });
 }
 
+// Main Function
+async function main(user, watchtypes) {
+    // Clear lists
+    AnimeList = [];
 
-io.sockets.on('connection', function(socket) {
-    console.log('>>> socket connection to server');
-
-    socket.on('client connected', function() {
-        console.log('>>> client connected');
-    });
-
-    // Data: MALuser, watchtypes (array), numOfQuestions
-    socket.on('start', async function(data) {
-        // List Reset
-        AnimeList = [];
-
-        for await (wt of data.watchtypes) {
-            var dataAPI_AnimeList = await callAnimeList(data.MALuser, wt);
-
-            Promise.all(dataAPI_AnimeList).then().catch();
-        }
-        console.log("\n\n" + "Number of Available Animes in List: " + AnimeList.length + "\n\n");
-
-
+    var api_AnimeLists = [];
+    for await (var watchtype of watchtypes) {
+        api_AnimeLists.push(callAnimeList(user, watchtype));
+    }
+    Promise.allSettled(api_AnimeLists).then(async () => {
+        console.log('Number of Animes grabbed: ' + AnimeList.length);
 
         var dupe = 0;
-        for (var i = 1; i <= data.numOfQuestions; i++) {
+        for (var i = 1; i <= 10/*data.numOfQuestions*/; i++) {
             console.log('Question ' + i);
             var chosenIndex = [];
             for (var j = 0; j < 4; j++) {
@@ -132,11 +124,17 @@ io.sockets.on('connection', function(socket) {
                 }
 
                 chosenIndex.push(index);
-                console.log('   Anime chosen (' + index + '): ' + AnimeList[index]);
+                console.log('   Anime chosen (' + index + '): ' + AnimeList[index].title);
             }
+
+            console.log(chosenIndex);
         }
         console.log('Duplicates: ' + dupe);
-
-
     });
-});
+}
+
+
+
+var MALuser = 'Iceehiphop';
+var watchtypes = [ 'watching', 'completed', 'onhold', 'dropped', 'ptw' ];
+main(MALuser, watchtypes);
