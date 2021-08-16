@@ -75,7 +75,7 @@ function callAnime(MALid) {
             var temp_charlist = [];
             for (var char of called_CharacterList) {
                 var temp_char = Objectr.create(Character);
-
+                console.log(char.name);
                 temp_char.name = char.name;
                 temp_char.image_src = char.image_url;
                 for (var ani of AnimeList)
@@ -111,10 +111,10 @@ async function main(user, watchtypes) {
     }
     Promise.allSettled(api_AnimeLists).then(async () => {
         console.log('Number of Animes grabbed: ' + AnimeList.length);
-
+        var Questions = [1,2,3,4,5,6];
         var dupe = 0;
-        for (var i = 1; i <= 10/*data.numOfQuestions*/; i++) {
-            console.log('Question ' + i);
+        for await (var q of Questions) { //var i = 1; i <= 10/*data.numOfQuestions*/; i++
+            console.log('Question ' + q);
             var chosenIndex = [];
             for (var j = 0; j < 4; j++) {
                 var index = randInt(AnimeList.length);
@@ -126,6 +126,17 @@ async function main(user, watchtypes) {
                 chosenIndex.push(index);
                 console.log('   Anime chosen (' + index + '): ' + AnimeList[index].title);
             }
+
+            var api_CharacterLists = [];
+            for await (var ind of chosenIndex) {
+                api_CharacterLists.push(callAnime(AnimeList[ind].mal_id));
+            }
+
+            Promise.allSettled(api_CharacterLists).then(() => {
+                for (var ind of chosenIndex) {
+                    console.log(AnimeList[ind].characters.length);
+                }
+            });
 
             console.log(chosenIndex);
         }
