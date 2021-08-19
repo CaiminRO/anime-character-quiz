@@ -109,12 +109,14 @@ async function main(user, watchtypes) {
     for await (var watchtype of watchtypes) {
         api_AnimeLists.push(callAnimeList(user, watchtype));
     }
-    Promise.allSettled(api_AnimeLists).then(async () => {
+
+    var IndexList = [];
+    var api_CharacterLists = [];
+    Promise.allSettled(api_AnimeLists).then(() => {
         console.log('Number of Animes grabbed: ' + AnimeList.length);
-        var Questions = [1,2,3,4,5,6];
         var dupe = 0;
-        for await (var q of Questions) { //var i = 1; i <= 10/*data.numOfQuestions*/; i++
-            console.log('Question ' + q);
+        for (var i = 1; i <= 3/*data.numOfQuestions*/; i++) { // (var i = 1; i <= 10/*data.numOfQuestions*/; i++)
+            console.log('Question ' + i);
             var chosenIndex = [];
             for (var j = 0; j < 4; j++) {
                 var index = randInt(AnimeList.length);
@@ -127,20 +129,29 @@ async function main(user, watchtypes) {
                 console.log('   Anime chosen (' + index + '): ' + AnimeList[index].title);
             }
 
-            var api_CharacterLists = [];
-            for await (var ind of chosenIndex) {
-                api_CharacterLists.push(callAnime(AnimeList[ind].mal_id));
-            }
-
-            Promise.allSettled(api_CharacterLists).then(() => {
-                for (var ind of chosenIndex) {
-                    console.log(AnimeList[ind].characters.length);
-                }
-            });
-
             console.log(chosenIndex);
+            IndexList.push(chosenIndex);
         }
         console.log('Duplicates: ' + dupe);
+    }).then(async () => {
+        api_CharacterLists = [];
+        var L = 0;
+        for await (var list of IndexList) {
+            var ind = list[L];
+            var malID = AnimeList[ind].mal_id;
+            api_CharacterLists.push(await callAnime(malID));
+            L++;
+        }
+    });
+
+    Promise.allSettled(api_CharacterLists).then(() => {
+        for (var i = 0; i < IndexList.length; i++) {
+            for (var j = 0; j < IndexList[i].length; j++) {
+                var list = IndexList[i];
+                var ind = list[j];
+                console.log(AnimeList[ind].characters.length);
+            }
+        }
     });
 }
 
